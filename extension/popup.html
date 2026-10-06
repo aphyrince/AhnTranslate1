@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>결 페이지 번역</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <header class="header">
+        <span aria-hidden="true" class="logo">결</span>
+        <div>
+          <h1>페이지 번역</h1>
+          <p>지금 보이는 문장부터 자연스럽게</p>
+        </div>
+        <span class="sparkle" aria-hidden="true">✳</span>
+      </header>
+
+      <form id="settings-form">
+        <label for="server-url">내 번역 서버</label>
+        <input
+          autocomplete="url"
+          id="server-url"
+          name="server-url"
+          placeholder="https://my-translator.vercel.app"
+          required
+          spellcheck="false"
+          type="url"
+        />
+
+        <label for="access-token">접근 토큰</label>
+        <input
+          autocomplete="off"
+          id="access-token"
+          name="access-token"
+          placeholder="Vercel 환경 변수와 같은 토큰"
+          required
+          type="password"
+        />
+
+        <label for="target-language">번역 언어</label>
+        <select id="target-language" name="target-language">
+          <option value="한국어">한국어</option>
+          <option value="영어">영어</option>
+          <option value="일본어">일본어</option>
+          <option value="중국어 간체">중국어 간체</option>
+          <option value="프랑스어">프랑스어</option>
+          <option value="스페인어">스페인어</option>
+          <option value="독일어">독일어</option>
+        </select>
+        <button class="save-button" id="save-settings" type="submit">설정 저장 및 서버 연결</button>
+      </form>
+
+      <button class="translate-button" disabled id="translate" type="button">
+        <span aria-hidden="true" class="translate-icon">✳</span>
+        <span id="translate-label">현재 화면 번역하기</span>
+        <span aria-hidden="true" class="translate-arrow">→</span>
+      </button>
+
+      <p aria-live="polite" class="status" id="status" role="status">서버 주소와 접근 토큰을 먼저 저장해 주세요.</p>
+      <footer>화면에 보이는 텍스트만 내 서버로 전송돼요.</footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
