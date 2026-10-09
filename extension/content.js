@@ -8,10 +8,13 @@
 
     const ignoredParents =
         "script, style, noscript, svg, canvas, template, input, textarea, select, option, button, [contenteditable='true'], [aria-hidden='true'], [translate='no'], [data-ahn-translate-ui]";
+    const codeParents = 'code, pre, kbd, samp';
     const pendingNodes = new WeakSet();
     const translatedNodes = new WeakSet();
     let active = false;
     let targetLanguage = '한국어';
+    let excludeCode = true;
+    let preserveEnglishTerms = true;
     let isProcessing = false;
     let scanTimer;
     let observer;
@@ -65,7 +68,11 @@
 
     function isVisible(node) {
         const parent = node.parentElement;
-        if (!parent || parent.closest(ignoredParents)) {
+        if (
+            !parent ||
+            parent.closest(ignoredParents) ||
+            (excludeCode && parent.closest(codeParents))
+        ) {
             return false;
         }
 
@@ -94,6 +101,11 @@
         return visible;
     }
 
+    function isStandaloneEnglishTerm(text) {
+        const trimmed = text.trim();
+        return /^[A-Za-z][A-Za-z0-9]*(?:['’-][A-Za-z]+)?$/.test(trimmed);
+    }
+
     function collectVisibleEntries() {
         const entries = [];
         let totalLength = 0;
@@ -104,6 +116,7 @@
             const text = node.nodeValue ?? '';
             if (
                 !text.trim() ||
+                (preserveEnglishTerms && isStandaloneEnglishTerm(text)) ||
                 text.length > 2_500 ||
                 pendingNodes.has(node) ||
                 translatedNodes.has(node) ||
@@ -217,6 +230,8 @@
 
     function onMessage(message, _sender, sendResponse) {
         if (message?.type === 'ahn:start') {
+            excludeCode = message.excludeCode !== false;
+            preserveEnglishTerms = message.preserveEnglishTerms !== false;
             sendResponse(start(message.targetLanguage));
             return false;
         }

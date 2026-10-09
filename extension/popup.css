@@ -84,6 +84,40 @@ select {
     font-size: 11px;
 }
 
+fieldset.translation-options {
+    display: grid;
+    gap: 8px;
+    margin: 5px 0 0;
+    padding: 9px 10px;
+    border: 1px solid #e0e7da;
+    border-radius: 5px;
+    background: #fff;
+}
+
+fieldset.translation-options legend {
+    padding: 0 4px;
+    color: #475a4c;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+label.option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    color: #475a4c;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+label.option input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    accent-color: #194b3c;
+}
+
 input:focus,
 select:focus {
     border-color: #799766;

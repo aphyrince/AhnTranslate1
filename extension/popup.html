@@ -49,6 +49,17 @@
           <option value="스페인어">스페인어</option>
           <option value="독일어">독일어</option>
         </select>
+        <fieldset class="translation-options">
+          <legend>번역 대상</legend>
+          <label class="option">
+            <input id="exclude-code" name="exclude-code" type="checkbox" checked />
+            코드 영역 제외
+          </label>
+          <label class="option">
+            <input id="preserve-english-terms" name="preserve-english-terms" type="checkbox" checked />
+            영문 단어는 그대로 유지
+          </label>
+        </fieldset>
         <button class="save-button" id="save-settings" type="submit">설정 저장 및 서버 연결</button>
       </form>
 

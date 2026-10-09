@@ -83,6 +83,8 @@ async function startPageTranslation(tabId) {
     return chrome.tabs.sendMessage(tabId, {
         type: 'ahn:start',
         targetLanguage: settings.targetLanguage,
+        excludeCode: settings.excludeCode !== false,
+        preserveEnglishTerms: settings.preserveEnglishTerms !== false,
     });
 }
 
@@ -124,6 +126,7 @@ async function translateTexts(texts) {
             body: JSON.stringify({
                 texts,
                 targetLanguage: settings.targetLanguage,
+                preserveEnglishTerms: settings.preserveEnglishTerms !== false,
             }),
             cache: 'no-store',
         });

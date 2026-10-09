@@ -2,6 +2,8 @@ const form = document.querySelector('#settings-form');
 const serverInput = document.querySelector('#server-url');
 const tokenInput = document.querySelector('#access-token');
 const languageSelect = document.querySelector('#target-language');
+const excludeCodeCheckbox = document.querySelector('#exclude-code');
+const preserveEnglishTermsCheckbox = document.querySelector('#preserve-english-terms');
 const saveButton = document.querySelector('#save-settings');
 const translateButton = document.querySelector('#translate');
 const translateLabel = document.querySelector('#translate-label');
@@ -49,7 +51,13 @@ function updateTranslateButton() {
 }
 
 async function loadSettings() {
-    const settings = await chrome.storage.local.get(['serverUrl', 'accessToken', 'targetLanguage']);
+    const settings = await chrome.storage.local.get([
+        'serverUrl',
+        'accessToken',
+        'targetLanguage',
+        'excludeCode',
+        'preserveEnglishTerms',
+    ]);
 
     if (settings.serverUrl) {
         serverInput.value = settings.serverUrl;
@@ -60,6 +68,8 @@ async function loadSettings() {
     if (settings.targetLanguage) {
         languageSelect.value = settings.targetLanguage;
     }
+    excludeCodeCheckbox.checked = settings.excludeCode !== false;
+    preserveEnglishTermsCheckbox.checked = settings.preserveEnglishTerms !== false;
 
     if (settings.serverUrl && settings.accessToken) {
         savedSettings = settings;
@@ -83,6 +93,8 @@ form.addEventListener('submit', async (event) => {
             serverUrl,
             accessToken,
             targetLanguage: languageSelect.value,
+            excludeCode: excludeCodeCheckbox.checked,
+            preserveEnglishTerms: preserveEnglishTermsCheckbox.checked,
         };
         await chrome.storage.local.set(settings);
         savedSettings = settings;
